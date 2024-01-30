@@ -185,7 +185,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &519420030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: f1a15a4db148eda4bbcef8690c6df899, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -979,18 +979,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f947773439e4342993fecdd3ca72c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <WalkSpeed>k__BackingField: 6
+  <WalkSpeed>k__BackingField: 2
   <AppleHead>k__BackingField: {fileID: 805036415}
   <AppleBody>k__BackingField: {fileID: 925009829}
   <AppleHat>k__BackingField: {fileID: 0}
   WalkAnimation:
-    AnimationFrameDuration: 0.1
-    WalkAnimation:
-    - {fileID: 357493062, guid: 409234b35bb9a9645b62559658705a37, type: 3}
-    - {fileID: 734063023, guid: 409234b35bb9a9645b62559658705a37, type: 3}
-    - {fileID: -1815191707, guid: 409234b35bb9a9645b62559658705a37, type: 3}
-    - {fileID: -128712135, guid: 409234b35bb9a9645b62559658705a37, type: 3}
+    LoopingAnimation: 1
+    SpriteAnimationFrameList:
+    - AnimSprite: {fileID: 357493062, guid: 409234b35bb9a9645b62559658705a37, type: 3}
+      FrameDuration: 0.125
+      FrameTriggers: []
+    - AnimSprite: {fileID: 734063023, guid: 409234b35bb9a9645b62559658705a37, type: 3}
+      FrameDuration: 0.125
+      FrameTriggers: []
+    - AnimSprite: {fileID: -1815191707, guid: 409234b35bb9a9645b62559658705a37, type: 3}
+      FrameDuration: 0.125
+      FrameTriggers: []
+    - AnimSprite: {fileID: -128712135, guid: 409234b35bb9a9645b62559658705a37, type: 3}
+      FrameDuration: 0.125
+      FrameTriggers: []
+  AttackAnimationList:
+  - LoopingAnimation: 0
+    SpriteAnimationFrameList:
+    - AnimSprite: {fileID: 597014119, guid: 2649fcfcd7fd2bf479ae32a58ef98c97, type: 3}
+      FrameDuration: 1
+      FrameTriggers: []
+    - AnimSprite: {fileID: 1451398997, guid: 2649fcfcd7fd2bf479ae32a58ef98c97, type: 3}
+      FrameDuration: 1.2
+      FrameTriggers:
+      - Attack
+    - AnimSprite: {fileID: -1425961352, guid: 2649fcfcd7fd2bf479ae32a58ef98c97, type: 3}
+      FrameDuration: 0.1
+      FrameTriggers: []
   MainCamera: {fileID: 519420031}
+  BackgroundImages:
+  - DisplayImage: {fileID: 641659445}
+    ScrollRate: 0.0005
+    UVOffset: {x: 0, y: 0}
+  - DisplayImage: {fileID: 629844695}
+    ScrollRate: 0.001
+    UVOffset: {x: 0, y: 0}
+  - DisplayImage: {fileID: 1484497702}
+    ScrollRate: 0.01
+    UVOffset: {x: 0, y: 0}
+  - DisplayImage: {fileID: 1433632524}
+    ScrollRate: 0.05
+    UVOffset: {x: 0, y: 0}
 --- !u!4 &1363521198
 Transform:
   m_ObjectHideFlags: 0

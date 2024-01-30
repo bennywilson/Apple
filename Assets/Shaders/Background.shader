@@ -1,9 +1,9 @@
-Shader "Apple\Background"
+Shader"Apple\Background"
 {
     Properties
     {
         _MainTex ("Sprite Texture", 2D) = "white" {}
-
+        _UVOffset("UV Offset", Vector) = (0,0,0,0)
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
         [HideInInspector] _Color ("Tint", Color) = (1,1,1,1)
         [HideInInspector] PixelSnap ("Pixel snap", Float) = 0
@@ -62,6 +62,7 @@ Shader "Apple\Background"
             half4 _MainTex_ST;
             float4 _Color;
             half4 _RendererColor;
+            half4 _UVOffset;
 
             Varyings UnlitVertex(Attributes v)
             {
@@ -80,7 +81,7 @@ Shader "Apple\Background"
 
             half4 UnlitFragment(Varyings i) : SV_Target
             {
-                float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+                float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + _UVOffset.xy);
 
                 #if defined(DEBUG_DISPLAY)
                 SurfaceData2D surfaceData;
