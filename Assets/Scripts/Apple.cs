@@ -16,6 +16,11 @@ public struct AnimationInfo
 {
     public void StartAnimation(SpriteRenderer renderer)
     {
+        if (SpriteAnimationFrameList.Length == 0)
+        {
+            return;
+        }
+
         CurrentFrame = 0;
         NextFrameTime = Time.time + SpriteAnimationFrameList[0].FrameDuration;
         SpriteRenderer = renderer;
@@ -72,6 +77,7 @@ public struct AnimationInfo
     public SpriteRenderer SpriteRenderer;
 
     public bool LoopingAnimation;
+    public bool FreezeOnLastFrame;
     public SpriteAnimationFrame[] SpriteAnimationFrameList;
 };
 
@@ -81,13 +87,49 @@ public enum ECharacterBodyState
     Walking,
     StartAttack,
     Attack,
+    PickingFruit,
 }
 
 public enum ECharacterFaceState
 {
     Idle,
     StartingAttack,
-    Attacking
+    Attacking,
+    Eating,
+}
+
+[System.Serializable]
+public struct BaseAttack
+{
+    public SpriteRenderer AttackSprite;
+    public AnimationInfo AttackAnimationFrameList;
+    public float DamageRadius;
+
+    public void StartAttack()
+    {
+        AttackAnimationFrameList.StartAnimation(AttackSprite);
+        AttackSprite.gameObject.SetActive(true);
+    }
+    public void UpdateAttack()
+    {
+        AttackAnimationFrameList.UpdateAnimation();
+        BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
+        for (int i = 0; i < Props.Length; i++)
+        {
+            BaseProp CurProp = Props[i];
+            float distTo = (AttackSprite.gameObject.transform.position - CurProp.transform.position).magnitude;
+
+            if (distTo < DamageRadius)
+            {
+                CurProp.TakeDamage(99999.0f);
+            }
+        }
+    }
+
+    public void StopAttack()
+    {
+        AttackSprite.gameObject.SetActive(false);
+    }
 }
 
 public class BaseCharacter : MonoBehaviour
@@ -108,11 +150,15 @@ public class BaseCharacter : MonoBehaviour
     protected AnimationInfo WalkAnimation;
 
     [field: SerializeField]
-    protected AnimationInfo[] AttackAnimationList;
+    protected AnimationInfo[] AttackAnimations;
+
+    [field: SerializeField]
+    protected BaseAttack[] AttackList;
 
     protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
     protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
     protected float FaceStateChangeStartTime;
+    protected float BodyStateChangeStartTime;
 }
 
 [System.Serializable]
@@ -131,6 +177,12 @@ public struct BackgroundImage
 
 public class Apple : BaseCharacter
 {
+    [field: SerializeField]
+    protected AnimationInfo PickingFruitAnimation;
+
+    [field: SerializeField]
+    protected AnimationInfo EatAnimation;
+
     public Camera MainCamera;
     public BackgroundImage[] BackgroundImages;
 
@@ -149,42 +201,86 @@ public class Apple : BaseCharacter
         Vector3 moveVec = new Vector3();
 
         // Update body
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (BodyState != ECharacterBodyState.PickingFruit)
         {
-            moveVec = new Vector3(1.0f, 0.0f, 0.0f);
-            AppleBody.flipX = false;
-            AppleHead.flipX = false;
-            AppleHead.transform.localPosition = new Vector3(0.2f, 0.139f, 0.0f);
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveVec = new Vector3(1.0f, 0.0f, 0.0f);
+                AppleBody.flipX = false;
+                AppleHead.flipX = false;
+                AppleHead.transform.localPosition = new Vector3(0.2f, 0.139f, 0.0f);
 
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
-            AppleBody.flipX = true;
-            AppleHead.flipX = true;
-            AppleHead.transform.localPosition = new Vector3(-0.2f, 0.139f, 0.0f);
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
+                AttackList[0].AttackSprite.flipX = false;
+                AttackList[0].AttackSprite.transform.localPosition = new Vector3(0.481f, 0.036f, 0.0f);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
+                AppleBody.flipX = true;
+                AppleHead.flipX = true;
+                AppleHead.transform.localPosition = new Vector3(-0.2f, 0.139f, 0.0f);
 
-        }
+                AttackList[0].AttackSprite.flipX = true;
+                AttackList[0].AttackSprite.transform.localPosition = new Vector3(-0.481f, 0.036f, 0.0f);
+            }
+            else if (Input.GetKeyDown(KeyCode.I))
+            {
+                BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    BaseProp CurProp = Props[i];
+                    if (CurProp.InteractType == BaseProp.EInteractType.None)
+                    {
+                        continue;
+                    }
+
+                    float distTo = (AppleHead.gameObject.transform.position - CurProp.transform.position).magnitude;
+
+                    if (distTo < 1.3f)
+                    {
+                        BodyState = ECharacterBodyState.PickingFruit;
+                        PickingFruitAnimation.StartAnimation(AppleBody);
+                        AppleHead.gameObject.SetActive(false);
+                        BodyStateChangeStartTime = Time.time;
+                        break;
+                    }
+                }
+            }
         
-        if (moveVec.sqrMagnitude > 0.001f)
-        {
-            if (BodyState != ECharacterBodyState.Walking)
+            if (moveVec.sqrMagnitude > 0.001f)
             {
-                WalkAnimation.StartAnimation(AppleBody);
-                BodyState = ECharacterBodyState.Walking;
+                if (BodyState != ECharacterBodyState.Walking)
+                {
+                    WalkAnimation.StartAnimation(AppleBody);
+                    BodyState = ECharacterBodyState.Walking;
+                }
+                else
+                {
+                    WalkAnimation.UpdateAnimation();
+                }
+                moveVec = moveVec * WalkSpeed * Time.deltaTime;
+                MainCamera.transform.position = new Vector3(gameObject.transform.position.x,  MainCamera.transform.position.y,  MainCamera.transform.position.z);
+                gameObject.transform.position = gameObject.transform.position + moveVec;
             }
-            else
-            {
-                WalkAnimation.UpdateAnimation();
-            }
-            moveVec = moveVec * WalkSpeed * Time.deltaTime;
-            MainCamera.transform.position = new Vector3(gameObject.transform.position.x,  MainCamera.transform.position.y,  MainCamera.transform.position.z);
-            gameObject.transform.position = gameObject.transform.position + moveVec;
         }
 
+        switch(BodyState)
+        {
+            case ECharacterBodyState.PickingFruit :
+            {
+                PickingFruitAnimation.UpdateAnimation();
+                if (PickingFruitAnimation.AnimIsFinished())
+                {
+                    AppleHead.gameObject.SetActive(true);
+                    BodyStateChangeStartTime = Time.time;
+                    BodyState = ECharacterBodyState.Idle;
+                    FaceState = ECharacterFaceState.Eating;
+                    FaceStateChangeStartTime = Time.time;
+                    EatAnimation.StartAnimation(AppleHead);
+                }
+                break;
+            }
+        }
         // Update Face
         switch(FaceState)
         {
@@ -194,26 +290,40 @@ public class Apple : BaseCharacter
                 {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
-                    AttackAnimationList[0].StartAnimation(AppleHead);
+                    AttackAnimations[0].StartAnimation(AppleHead);
                 }
                 break;
             }
 
             case ECharacterFaceState.StartingAttack :
             {
-                string[] FrameTriggers = AttackAnimationList[0].UpdateAnimation();
+                string[] FrameTriggers = AttackAnimations[0].UpdateAnimation();
                 if (FrameTriggers != null && FrameTriggers.Length > 0)
                 {
                     FaceState = ECharacterFaceState.Attacking;
                     FaceStateChangeStartTime = Time.time;
+                    AttackList[0].StartAttack();
                 }
                 break;
             }
 
             case ECharacterFaceState.Attacking :
             {
-                string[] FrameTriggers = AttackAnimationList[0].UpdateAnimation();
-                if (AttackAnimationList[0].AnimIsFinished())
+                string[] FrameTriggers = AttackAnimations[0].UpdateAnimation();
+                AttackList[0].UpdateAttack();
+                if (AttackAnimations[0].AnimIsFinished())
+                {
+                    FaceState = ECharacterFaceState.Idle;
+                    FaceStateChangeStartTime = Time.time;
+                    AttackList[0].StopAttack();
+                }
+                break;
+            }
+
+            case ECharacterFaceState.Eating :
+            {
+                EatAnimation.UpdateAnimation();
+                if (EatAnimation.AnimIsFinished())
                 {
                     FaceState = ECharacterFaceState.Idle;
                     FaceStateChangeStartTime = Time.time;

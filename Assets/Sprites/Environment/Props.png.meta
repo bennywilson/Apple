@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2649fcfcd7fd2bf479ae32a58ef98c97
+guid: 8ba76398270319b4abb71ddbb059729f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,148 +123,232 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Apple_Head_Base
+      name: Props_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 32
-        height: 32
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ab8c1f9a86f4bc48925f867a89f44ee
-      internalID: -1425961352
+      spriteID: 51d089dcb92c7ad42a4cd9badb0dd298
+      internalID: 1149702941
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Angry
+      name: Props_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 96
-        width: 32
-        height: 32
+        x: 40
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d114138b9324a1499d20decfd0e9020
-      internalID: 597014119
+      spriteID: e6bf5fb6774b07749b63f71083f3640a
+      internalID: 2119923324
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Surprised
+      name: Props_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
+        x: 80
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 38a7e3a43167c114d90aa9ef7e9f6cb8
-      internalID: 1200861826
+      spriteID: da35f1322cae6864c8df67d8f806c962
+      internalID: 890274088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Eat
+      name: Props_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 64
-        width: 32
-        height: 32
+        x: 120
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a68d297ba0d9be84e994af8e1886da97
-      internalID: -1261277601
+      spriteID: 31b57f6158b9d8a4691e009b1b861650
+      internalID: 496444573
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_BlowFire
+      name: Props_4
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 160
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 756c48ad9701cba42954fd16dc02dd59
-      internalID: 1451398997
+      spriteID: ff4d7efb984e2b04384bc1d2ce4be040
+      internalID: 1982868753
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Sleep
+      name: Props_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
+        x: 200
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 264bfcbd8adccd746a81b8484864c6ab
-      internalID: 1627339928
+      spriteID: 4f81fd4f945faf2489c8f058cdc14d74
+      internalID: -988519103
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_6
+      name: Props_6
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 240
+        y: 472
+        width: 40
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 200aa5305bb24944ebe90445e05f1846
-      internalID: -1256169801
+      spriteID: 07769183884c2af49b02b32346bf321e
+      internalID: 2145704713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props_7
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 472
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff683ac9348946047a3806b8d943f914
+      internalID: -724277770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props_8
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 472
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e12871ad96adb342baf1c66beb8cc11
+      internalID: 2130751134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props_9
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 472
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41e42ebbf6f0b2d458174f206a4cdadc
+      internalID: -1892043068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props_10
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 472
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b13127a962df5084cbcc26f6c568e4af
+      internalID: -473891303
       vertices: []
       indices: 
       edges: []
@@ -280,13 +364,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Apple_Head_6: -1256169801
-      Apple_Head_Angry: 597014119
-      Apple_Head_Base: -1425961352
-      Apple_Head_BlowFire: 1451398997
-      Apple_Head_Eat: -1261277601
-      Apple_Head_Sleep: 1627339928
-      Apple_Head_Surprised: 1200861826
+      Props_0: 1149702941
+      Props_1: 2119923324
+      Props_10: -473891303
+      Props_2: 890274088
+      Props_3: 496444573
+      Props_4: 1982868753
+      Props_5: -988519103
+      Props_6: 2145704713
+      Props_7: -724277770
+      Props_8: 2130751134
+      Props_9: -1892043068
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
