@@ -119,7 +119,7 @@ Shader"Apple\BaseCharacterShader"
                 SurfaceData2D surfaceData;
                 InputData2D inputData;
 
-            InitializeSurfaceData(main.rgb, (main.a > 0.4f), 1.0f, surfaceData);
+    InitializeSurfaceData(main.rgb, (TexColor.a > 0.4f), 1.0f, surfaceData);
                 InitializeInputData(i.uv, i.lightingUV, inputData);
 
                 return CombinedShapeLightShared(surfaceData, inputData);

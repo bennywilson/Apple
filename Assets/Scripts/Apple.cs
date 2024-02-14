@@ -186,6 +186,11 @@ public class Apple : BaseCharacter
     public Camera MainCamera;
     public BackgroundImage[] BackgroundImages;
 
+    public Events MoveLeftBtn;
+    public Events MoveRightBtn;
+    public Events InteractBtn;
+    public Events AttackBtn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -203,7 +208,7 @@ public class Apple : BaseCharacter
         // Update body
         if (BodyState != ECharacterBodyState.PickingFruit)
         {
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow) || MoveRightBtn.GetButtonDown())
             {
                 moveVec = new Vector3(1.0f, 0.0f, 0.0f);
                 AppleBody.flipX = false;
@@ -213,7 +218,7 @@ public class Apple : BaseCharacter
                 AttackList[0].AttackSprite.flipX = false;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector3(0.481f, 0.036f, 0.0f);
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) || MoveLeftBtn.GetButtonDown())
             {
                 moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
                 AppleBody.flipX = true;
@@ -223,7 +228,7 @@ public class Apple : BaseCharacter
                 AttackList[0].AttackSprite.flipX = true;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector3(-0.481f, 0.036f, 0.0f);
             }
-            else if (Input.GetKeyDown(KeyCode.I))
+            else if (Input.GetKeyDown(KeyCode.I) || InteractBtn.GetButtonDown())
             {
                 BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
                 for (int i = 0; i < Props.Length; i++)
@@ -261,6 +266,23 @@ public class Apple : BaseCharacter
                 moveVec = moveVec * WalkSpeed * Time.deltaTime;
                 MainCamera.transform.position = new Vector3(gameObject.transform.position.x,  MainCamera.transform.position.y,  MainCamera.transform.position.z);
                 gameObject.transform.position = gameObject.transform.position + moveVec;
+
+                BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    BaseProp CurProp = Props[i];
+                    if (CurProp.IsAlive() == true)
+                    {
+                        continue;
+                    }
+
+                    float distTo = (gameObject.transform.position - CurProp.transform.position).magnitude;
+                    if (distTo < 0.5f)
+                    {
+                        StopCoroutine(ApplySoot());
+                        StartCoroutine(ApplySoot());
+                    }
+                }
             }
         }
 
@@ -286,7 +308,7 @@ public class Apple : BaseCharacter
         {
             case ECharacterFaceState.Idle :
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(1) || AttackBtn.GetButtonDown())
                 {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
@@ -338,5 +360,12 @@ public class Apple : BaseCharacter
         {
             BackgroundImages[i].Scroll(moveVec);
         }
+    }
+
+    IEnumerator ApplySoot()
+    {
+        AppleBody.material.SetVector("_BodyTint_1", new Vector4(0.1f, 0.1f, 0.1f, 0.1f));
+        yield return new WaitForSeconds(4);
+        AppleBody.material.SetVector("_BodyTint_1", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 }
