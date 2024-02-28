@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//using UnityEngine.Physics2DModule;
 
 [System.Serializable]
 public struct SpriteAnimationFrame
@@ -147,6 +147,10 @@ public class BaseCharacter : MonoBehaviour
     public SpriteRenderer AppleHat { get; private set;}
 
     [field: SerializeField]
+    public Rigidbody2D RB { get; private set;}
+
+
+    [field: SerializeField]
     protected AnimationInfo WalkAnimation;
 
     [field: SerializeField]
@@ -154,6 +158,8 @@ public class BaseCharacter : MonoBehaviour
 
     [field: SerializeField]
     protected BaseAttack[] AttackList;
+
+    protected Vector3 LastPos;
 
     protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
     protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
@@ -198,6 +204,7 @@ public class Apple : BaseCharacter
         {
             BackgroundImages[i].DisplayImage.material = Instantiate(BackgroundImages[i].DisplayImage.material);
         }
+        LastPos = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -252,7 +259,11 @@ public class Apple : BaseCharacter
                 }
             }
         
-            if (moveVec.sqrMagnitude > 0.001f)
+            if (moveVec.sqrMagnitude < 0.001f)
+            {
+                RB.velocity = new Vector2(0.0f, 0.0f);
+            }
+            else
             {
                 if (BodyState != ECharacterBodyState.Walking)
                 {
@@ -263,9 +274,10 @@ public class Apple : BaseCharacter
                 {
                     WalkAnimation.UpdateAnimation();
                 }
-                moveVec = moveVec * WalkSpeed * Time.deltaTime;
+                RB.velocity = moveVec * WalkSpeed;
+             //   moveVec = moveVec * WalkSpeed * Time.deltaTime;
                 MainCamera.transform.position = new Vector3(gameObject.transform.position.x,  MainCamera.transform.position.y,  MainCamera.transform.position.z);
-                gameObject.transform.position = gameObject.transform.position + moveVec;
+              //  gameObject.transform.position = gameObject.transform.position + moveVec;
 
                 BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
                 for (int i = 0; i < Props.Length; i++)
@@ -284,6 +296,7 @@ public class Apple : BaseCharacter
                     }
                 }
             }
+
         }
 
         switch(BodyState)
@@ -358,8 +371,10 @@ public class Apple : BaseCharacter
         // Update backgrounds
         for (int i = 0; i < BackgroundImages.Length; i++)
         {
-            BackgroundImages[i].Scroll(moveVec);
+            Vector3 scrollVec = gameObject.transform.position - LastPos;
+            BackgroundImages[i].Scroll(scrollVec);
         }
+        LastPos = gameObject.transform.position;
     }
 
     IEnumerator ApplySoot()

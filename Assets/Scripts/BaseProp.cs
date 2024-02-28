@@ -22,7 +22,8 @@ public class BaseProp : MonoBehaviour
     public enum EInteractType
     {
         None,
-        PickFruit
+        PickFruit,
+        Block
     }
     public EInteractType InteractType;
     
