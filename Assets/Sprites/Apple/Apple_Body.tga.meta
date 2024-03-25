@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Apple_Body_0
+      name: Apple_Walk_1
       rect:
         serializedVersion: 2
         x: 0
@@ -131,7 +131,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,7 +144,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_1
+      name: Apple_Walk_2
       rect:
         serializedVersion: 2
         x: 64
@@ -152,7 +152,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,15 +165,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_2
+      name: Apple_Fly_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
+        x: 128
+        y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,15 +186,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_3
+      name: Apple_Walk_3
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,6 +202,48 @@ TextureImporter:
       bones: []
       spriteID: 26aeb6ef4eebf23488427c3cda03a9cc
       internalID: -252465637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Apple_Walk_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6857b1d8a5d4c243ba8e46189c9a123
+      internalID: -1722881008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Apple_Fly_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55d34aa24b9aca647b293b9648e68e82
+      internalID: -1660642406
       vertices: []
       indices: 
       edges: []
@@ -217,10 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Apple_Body_0: -387999337
-      Apple_Body_1: 1469052235
-      Apple_Body_2: -1634373776
-      Apple_Body_3: -252465637
+      Apple_Fly_1: -1634373776
+      Apple_Fly_2: -1660642406
+      Apple_Walk_1: -387999337
+      Apple_Walk_2: 1469052235
+      Apple_Walk_3: -252465637
+      Apple_Walk_4: -1722881008
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

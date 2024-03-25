@@ -85,9 +85,8 @@ public enum ECharacterBodyState
 {
     Idle,
     Walking,
-    StartAttack,
-    Attack,
     PickingFruit,
+    Flying
 }
 
 public enum ECharacterFaceState
@@ -138,6 +137,9 @@ public class BaseCharacter : MonoBehaviour
     public float WalkSpeed { get; private set;} = 1.0f;
 
     [field: SerializeField]
+    public float FlyUpSpeed { get; private set; } = 1.0f;
+
+    [field: SerializeField]
     public SpriteRenderer AppleHead { get; private set;}
 
     [field: SerializeField]
@@ -159,6 +161,9 @@ public class BaseCharacter : MonoBehaviour
     [field: SerializeField]
     protected BaseAttack[] AttackList;
 
+    [field: SerializeField]
+    protected AnimationInfo FlyAnimation;
+
     protected Vector3 LastPos;
 
     protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
@@ -177,7 +182,7 @@ public struct BackgroundImage
     public void Scroll(Vector2 Offset)
     {
         UVOffset = UVOffset + Offset * ScrollRate;
-        DisplayImage.materialForRendering.SetVector("_UVOffset", UVOffset);
+        DisplayImage.materialForRendering.SetVector("_UVOffset", new Vector2(UVOffset.x, 0.0f));
     }
 }
 
@@ -196,6 +201,7 @@ public class Apple : BaseCharacter
     public Events MoveRightBtn;
     public Events InteractBtn;
     public Events AttackBtn;
+    public Events FlyBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -210,32 +216,48 @@ public class Apple : BaseCharacter
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveVec = new Vector3();
+        Vector2 moveVec = new Vector2();
+
+        RB.velocity = new Vector2(0.0f, 0.0f);
+
+        bool bIsFlyButtonPressed = Input.GetKey(KeyCode.Space) || FlyBtn.GetButtonDown();
 
         // Update body
         if (BodyState != ECharacterBodyState.PickingFruit)
         {
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || MoveRightBtn.GetButtonDown())
             {
-                moveVec = new Vector3(1.0f, 0.0f, 0.0f);
+                moveVec = new Vector3(1.0f, 0.0f);
                 AppleBody.flipX = false;
                 AppleHead.flipX = false;
-                AppleHead.transform.localPosition = new Vector3(0.2f, 0.139f, 0.0f);
+                AppleHead.transform.localPosition = new Vector2(0.25f, 0.139f);
 
                 AttackList[0].AttackSprite.flipX = false;
-                AttackList[0].AttackSprite.transform.localPosition = new Vector3(0.481f, 0.036f, 0.0f);
+                AttackList[0].AttackSprite.transform.localPosition = new Vector2(0.553f, 0.036f);
+
+                if (BodyState != ECharacterBodyState.Flying && BodyState != ECharacterBodyState.Walking)
+                {
+                    BodyState = ECharacterBodyState.Walking;
+                    WalkAnimation.StartAnimation(AppleBody);
+                }
             }
             else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || MoveLeftBtn.GetButtonDown())
             {
                 moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
                 AppleBody.flipX = true;
                 AppleHead.flipX = true;
-                AppleHead.transform.localPosition = new Vector3(-0.2f, 0.139f, 0.0f);
+                AppleHead.transform.localPosition = new Vector2(-0.25f, 0.139f);
 
                 AttackList[0].AttackSprite.flipX = true;
-                AttackList[0].AttackSprite.transform.localPosition = new Vector3(-0.481f, 0.036f, 0.0f);
+                AttackList[0].AttackSprite.transform.localPosition = new Vector2(-0.55f, 0.036f);
+
+                if (BodyState != ECharacterBodyState.Flying && BodyState != ECharacterBodyState.Walking)
+                {
+                    BodyState = ECharacterBodyState.Walking;
+                    WalkAnimation.StartAnimation(AppleBody);
+                }
             }
-            else if (FaceState != ECharacterFaceState.StartingAttack && FaceState != ECharacterFaceState.Attacking)
+            else if (FaceState != ECharacterFaceState.StartingAttack && FaceState != ECharacterFaceState.Attacking && BodyState != ECharacterBodyState.Flying)
             {
                 if (Input.GetKeyDown(KeyCode.E) || InteractBtn.GetButtonDown())
                 {
@@ -260,27 +282,25 @@ public class Apple : BaseCharacter
                         }
                     }
                 }
+                else if (bIsFlyButtonPressed)
+                {
+                    BodyState = ECharacterBodyState.Flying;
+                    FlyAnimation.StartAnimation(AppleBody);
+                }
             }
             
-            if (moveVec.sqrMagnitude < 0.001f)
+            if (BodyState == ECharacterBodyState.Flying)
             {
-                RB.velocity = new Vector2(0.0f, 0.0f);
+                if (bIsFlyButtonPressed)
+                {
+                    RB.velocity += new Vector2(0.0f, FlyUpSpeed);
+                }
             }
-            else
+
+            if (moveVec.sqrMagnitude > 0.001f)
             {
-                if (BodyState != ECharacterBodyState.Walking)
-                {
-                    WalkAnimation.StartAnimation(AppleBody);
-                    BodyState = ECharacterBodyState.Walking;
-                }
-                else
-                {
-                    WalkAnimation.UpdateAnimation();
-                }
-                RB.velocity = moveVec * WalkSpeed;
-             //   moveVec = moveVec * WalkSpeed * Time.deltaTime;
-                MainCamera.transform.position = new Vector3(gameObject.transform.position.x,  MainCamera.transform.position.y,  MainCamera.transform.position.z);
-              //  gameObject.transform.position = gameObject.transform.position + moveVec;
+                RB.velocity += moveVec * WalkSpeed;
+                MainCamera.transform.position = new Vector3(gameObject.transform.position.x, MainCamera.transform.position.y, MainCamera.transform.position.z);
 
                 BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
                 for (int i = 0; i < Props.Length; i++)
@@ -304,6 +324,29 @@ public class Apple : BaseCharacter
 
         switch(BodyState)
         {
+            case ECharacterBodyState.Walking:
+                {
+                    if (moveVec.sqrMagnitude > 0.001f)
+                    {
+                        WalkAnimation.UpdateAnimation();
+                    }
+                    break;
+                }
+
+            case ECharacterBodyState.Flying:
+                {
+                    if (gameObject.transform.position.y < -3.0f && bIsFlyButtonPressed == false)
+                    {
+                        WalkAnimation.StartAnimation(AppleBody);
+                        BodyState = ECharacterBodyState.Walking;
+                    }
+                    else
+                    {
+                        FlyAnimation.UpdateAnimation();
+                    }
+                    break;
+                }
+
             case ECharacterBodyState.PickingFruit :
             {
                 PickingFruitAnimation.UpdateAnimation();
@@ -319,6 +362,7 @@ public class Apple : BaseCharacter
                 break;
             }
         }
+
         // Update Face
         switch(FaceState)
         {
