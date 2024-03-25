@@ -215,7 +215,7 @@ public class Apple : BaseCharacter
         // Update body
         if (BodyState != ECharacterBodyState.PickingFruit)
         {
-            if (Input.GetKey(KeyCode.RightArrow) || MoveRightBtn.GetButtonDown())
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || MoveRightBtn.GetButtonDown())
             {
                 moveVec = new Vector3(1.0f, 0.0f, 0.0f);
                 AppleBody.flipX = false;
@@ -225,7 +225,7 @@ public class Apple : BaseCharacter
                 AttackList[0].AttackSprite.flipX = false;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector3(0.481f, 0.036f, 0.0f);
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) || MoveLeftBtn.GetButtonDown())
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || MoveLeftBtn.GetButtonDown())
             {
                 moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
                 AppleBody.flipX = true;
@@ -235,30 +235,33 @@ public class Apple : BaseCharacter
                 AttackList[0].AttackSprite.flipX = true;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector3(-0.481f, 0.036f, 0.0f);
             }
-            else if (Input.GetKeyDown(KeyCode.I) || InteractBtn.GetButtonDown())
+            else if (FaceState != ECharacterFaceState.StartingAttack && FaceState != ECharacterFaceState.Attacking)
             {
-                BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
-                for (int i = 0; i < Props.Length; i++)
+                if (Input.GetKeyDown(KeyCode.E) || InteractBtn.GetButtonDown())
                 {
-                    BaseProp CurProp = Props[i];
-                    if (CurProp.InteractType == BaseProp.EInteractType.None)
+                    BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
+                    for (int i = 0; i < Props.Length; i++)
                     {
-                        continue;
-                    }
+                        BaseProp CurProp = Props[i];
+                        if (CurProp.InteractType == BaseProp.EInteractType.None)
+                        {
+                            continue;
+                        }
 
-                    float distTo = (AppleHead.gameObject.transform.position - CurProp.transform.position).magnitude;
+                        float distTo = (AppleHead.gameObject.transform.position - CurProp.transform.position).magnitude;
 
-                    if (distTo < 1.3f)
-                    {
-                        BodyState = ECharacterBodyState.PickingFruit;
-                        PickingFruitAnimation.StartAnimation(AppleBody);
-                        AppleHead.gameObject.SetActive(false);
-                        BodyStateChangeStartTime = Time.time;
-                        break;
+                        if (distTo < 1.3f)
+                        {
+                            BodyState = ECharacterBodyState.PickingFruit;
+                            PickingFruitAnimation.StartAnimation(AppleBody);
+                            AppleHead.gameObject.SetActive(false);
+                            BodyStateChangeStartTime = Time.time;
+                            break;
+                        }
                     }
                 }
             }
-        
+            
             if (moveVec.sqrMagnitude < 0.001f)
             {
                 RB.velocity = new Vector2(0.0f, 0.0f);
@@ -321,7 +324,7 @@ public class Apple : BaseCharacter
         {
             case ECharacterFaceState.Idle :
             {
-                if (Input.GetMouseButton(1) || AttackBtn.GetButtonDown())
+                if (BodyState != ECharacterBodyState.PickingFruit && (Input.GetMouseButton(1) || AttackBtn.GetButtonDown()))
                 {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
