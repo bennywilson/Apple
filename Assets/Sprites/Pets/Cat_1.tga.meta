@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 409234b35bb9a9645b62559658705a37
+guid: 12b8554cc1085da4bb6cbf8ce8d35476
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Apple_Body_0
+      name: Cat_1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
-        width: 64
-        height: 64
+        y: 169
+        width: 76
+        height: 87
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e2e530cee7ff9d4d9b5ca25ff4fa1e1
-      internalID: 357493062
+      spriteID: 7f8f3abd73d98654e9283a7f13036802
+      internalID: -1192121509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_1
+      name: Cat_1_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
-        width: 64
-        height: 64
+        x: 76
+        y: 169
+        width: 76
+        height: 87
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f08ea272f883c6b4db81dec72469e888
-      internalID: 734063023
+      spriteID: 26058af31300d534c8e50b18c38c4129
+      internalID: -56647973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_2
+      name: Cat_1_2
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 169
+        width: 76
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4857be5723e1c1642b2c1411172c4e86
+      internalID: -1914288579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_1_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 64
-        height: 64
+        y: 82
+        width: 76
+        height: 87
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +200,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5805cf330d45f404f8ba20ddf4be6c1a
-      internalID: -1815191707
+      spriteID: 052b74f1ec14a58499d260e051d1fea7
+      internalID: 227967686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Body_3
+      name: Cat_1_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 128
-        width: 64
-        height: 64
+        x: 76
+        y: 82
+        width: 76
+        height: 87
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +221,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ae6640064f9f9b4f97b6b139010bae5
-      internalID: -128712135
+      spriteID: b3a0723aa01e5684580d5ccf1f958334
+      internalID: 346328725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_1_5
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 82
+        width: 76
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82a18b79ca5eb074faa7fe20a5b6e43c
+      internalID: 260734309
       vertices: []
       indices: 
       edges: []
@@ -217,10 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Apple_Body_0: 357493062
-      Apple_Body_1: 734063023
-      Apple_Body_2: -1815191707
-      Apple_Body_3: -128712135
+      Cat_1_0: -1192121509
+      Cat_1_1: -56647973
+      Cat_1_2: -1914288579
+      Cat_1_3: 227967686
+      Cat_1_4: 346328725
+      Cat_1_5: 260734309
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

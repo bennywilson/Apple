@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2735926295604268309}
   - component: {fileID: 9027705805022184231}
   - component: {fileID: 1090944525776556861}
-  - component: {fileID: 4229917434233572471}
   - component: {fileID: 6498176848366551939}
+  - component: {fileID: 955653101694370760}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -110,51 +110,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4229917434233572471
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700751892086825407}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.038971826}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.16, y: 0.97}
-    newSize: {x: 2.16, y: 0.97}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.16, y: 1.075329}
-  m_EdgeRadius: 0
 --- !u!50 &6498176848366551939
 Rigidbody2D:
   serializedVersion: 4
@@ -182,3 +137,71 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!60 &955653101694370760
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700751892086825407}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.16, y: 0.97}
+    newSize: {x: 2.16, y: 0.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.94, y: 0.105}
+      - {x: 0.76, y: 0.405}
+      - {x: 0.66999996, y: 0.465}
+      - {x: 0.59999996, y: 0.475}
+      - {x: 0.42999998, y: 0.24499999}
+      - {x: 0.32, y: 0.155}
+      - {x: 0.17999999, y: 0.275}
+      - {x: 0.12, y: 0.295}
+      - {x: 0.03, y: 0.315}
+      - {x: -0.14999999, y: 0.315}
+      - {x: -0.34, y: 0.48499998}
+      - {x: -0.47, y: 0.48499998}
+      - {x: -0.52, y: 0.445}
+      - {x: -0.83, y: 0.145}
+      - {x: -0.90999997, y: 0.055}
+      - {x: -0.98999995, y: -0.085}
+      - {x: -1.04, y: -0.175}
+      - {x: -1.0799999, y: -0.305}
+      - {x: -1.0799999, y: -0.475}
+      - {x: -0.19, y: -0.48499998}
+      - {x: 1.0799999, y: -0.48499998}
+      - {x: 1.0799999, y: -0.255}
+      - {x: 1.01, y: -0.044999998}
+  m_UseDelaunayMesh: 0

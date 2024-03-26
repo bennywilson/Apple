@@ -3,84 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.Physics2DModule;
 
-[System.Serializable]
-public struct SpriteAnimationFrame
-{
-    public Sprite AnimSprite;
-    public float FrameDuration;
-    public string[] FrameTriggers;
-}
-
-[System.Serializable]
-public struct AnimationInfo
-{
-    public void StartAnimation(SpriteRenderer renderer)
-    {
-        if (SpriteAnimationFrameList.Length == 0)
-        {
-            return;
-        }
-
-        CurrentFrame = 0;
-        NextFrameTime = Time.time + SpriteAnimationFrameList[0].FrameDuration;
-        SpriteRenderer = renderer;
-        SpriteRenderer.sprite = SpriteAnimationFrameList[CurrentFrame].AnimSprite;
-    }
-
-    public string[] UpdateAnimation()
-    {
-        if (SpriteAnimationFrameList.Length == 0)
-        {
-            return null;
-        }
-
-        if (Time.time > NextFrameTime)
-        {
-            CurrentFrame++;
-            if (CurrentFrame >= SpriteAnimationFrameList.Length)
-            {
-                if (LoopingAnimation)
-                {
-                    CurrentFrame = 0;
-                }
-                else
-                {
-                    CurrentFrame = SpriteAnimationFrameList.Length - 1;
-                }
-            }
-
-            NextFrameTime = Time.time + SpriteAnimationFrameList[CurrentFrame].FrameDuration;
-            SpriteRenderer.sprite = SpriteAnimationFrameList[CurrentFrame].AnimSprite;
-        }
-
-        return SpriteAnimationFrameList[CurrentFrame].FrameTriggers;
-    }
-
-    public bool AnimIsFinished()
-    {
-        if (CurrentFrame >= SpriteAnimationFrameList.Length)
-            return true;
-
-        if ((CurrentFrame == SpriteAnimationFrameList.Length - 1) && Time.time >= SpriteAnimationFrameList[SpriteAnimationFrameList.Length - 1].FrameDuration)
-            return true;
-
-        return false;
-    }
-
-    [System.NonSerialized]
-    public int CurrentFrame;
-
-    [System.NonSerialized]
-    public float NextFrameTime;
-
-    [System.NonSerialized]
-    public SpriteRenderer SpriteRenderer;
-
-    public bool LoopingAnimation;
-    public bool FreezeOnLastFrame;
-    public SpriteAnimationFrame[] SpriteAnimationFrameList;
-};
-
 public enum ECharacterBodyState
 {
     Idle,
@@ -95,95 +17,6 @@ public enum ECharacterFaceState
     StartingAttack,
     Attacking,
     Eating,
-}
-
-[System.Serializable]
-public struct BaseAttack
-{
-    public SpriteRenderer AttackSprite;
-    public AnimationInfo AttackAnimationFrameList;
-    public float DamageRadius;
-
-    public void StartAttack()
-    {
-        AttackAnimationFrameList.StartAnimation(AttackSprite);
-        AttackSprite.gameObject.SetActive(true);
-    }
-    public void UpdateAttack()
-    {
-        AttackAnimationFrameList.UpdateAnimation();
-        BaseProp[] Props = GameObject.FindObjectsOfType<BaseProp>();
-        for (int i = 0; i < Props.Length; i++)
-        {
-            BaseProp CurProp = Props[i];
-            float distTo = (AttackSprite.gameObject.transform.position - CurProp.transform.position).magnitude;
-
-            if (distTo < DamageRadius)
-            {
-                CurProp.TakeDamage(99999.0f);
-            }
-        }
-    }
-
-    public void StopAttack()
-    {
-        AttackSprite.gameObject.SetActive(false);
-    }
-}
-
-public class BaseCharacter : MonoBehaviour
-{
-    [field: SerializeField]
-    public float WalkSpeed { get; private set;} = 1.0f;
-
-    [field: SerializeField]
-    public float FlyUpSpeed { get; private set; } = 1.0f;
-
-    [field: SerializeField]
-    public SpriteRenderer AppleHead { get; private set;}
-
-    [field: SerializeField]
-    public SpriteRenderer AppleBody { get; private set;}
-
-    [field: SerializeField]
-    public SpriteRenderer AppleHat { get; private set;}
-
-    [field: SerializeField]
-    public Rigidbody2D RB { get; private set;}
-
-
-    [field: SerializeField]
-    protected AnimationInfo WalkAnimation;
-
-    [field: SerializeField]
-    protected AnimationInfo[] AttackAnimations;
-
-    [field: SerializeField]
-    protected BaseAttack[] AttackList;
-
-    [field: SerializeField]
-    protected AnimationInfo FlyAnimation;
-
-    protected Vector3 LastPos;
-
-    protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
-    protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
-    protected float FaceStateChangeStartTime;
-    protected float BodyStateChangeStartTime;
-}
-
-[System.Serializable]
-public struct BackgroundImage
-{
-    public UnityEngine.UI.Image DisplayImage;
-    public float ScrollRate;
-    public Vector2 UVOffset;
-
-    public void Scroll(Vector2 Offset)
-    {
-        UVOffset = UVOffset + Offset * ScrollRate;
-        DisplayImage.materialForRendering.SetVector("_UVOffset", new Vector2(UVOffset.x, 0.0f));
-    }
 }
 
 public class Apple : BaseCharacter
@@ -202,6 +35,11 @@ public class Apple : BaseCharacter
     public Events InteractBtn;
     public Events AttackBtn;
     public Events FlyBtn;
+
+    protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
+    protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
+    protected float FaceStateChangeStartTime;
+    protected float BodyStateChangeStartTime;
 
     // Start is called before the first frame update
     void Start()
@@ -228,9 +66,9 @@ public class Apple : BaseCharacter
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || MoveRightBtn.GetButtonDown())
             {
                 moveVec = new Vector3(1.0f, 0.0f);
-                AppleBody.flipX = false;
-                AppleHead.flipX = false;
-                AppleHead.transform.localPosition = new Vector2(0.25f, 0.139f);
+                BodySprite.flipX = false;
+                HeadSprite.flipX = false;
+                HeadSprite.transform.localPosition = new Vector2(0.25f, 0.139f);
 
                 AttackList[0].AttackSprite.flipX = false;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector2(0.553f, 0.036f);
@@ -238,15 +76,15 @@ public class Apple : BaseCharacter
                 if (BodyState != ECharacterBodyState.Flying && BodyState != ECharacterBodyState.Walking)
                 {
                     BodyState = ECharacterBodyState.Walking;
-                    WalkAnimation.StartAnimation(AppleBody);
+                    WalkAnimation.StartAnimation(BodySprite);
                 }
             }
             else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || MoveLeftBtn.GetButtonDown())
             {
                 moveVec = new Vector3(-1.0f, 0.0f, 0.0f);
-                AppleBody.flipX = true;
-                AppleHead.flipX = true;
-                AppleHead.transform.localPosition = new Vector2(-0.25f, 0.139f);
+                BodySprite.flipX = true;
+                HeadSprite.flipX = true;
+                HeadSprite.transform.localPosition = new Vector2(-0.25f, 0.139f);
 
                 AttackList[0].AttackSprite.flipX = true;
                 AttackList[0].AttackSprite.transform.localPosition = new Vector2(-0.55f, 0.036f);
@@ -254,7 +92,7 @@ public class Apple : BaseCharacter
                 if (BodyState != ECharacterBodyState.Flying && BodyState != ECharacterBodyState.Walking)
                 {
                     BodyState = ECharacterBodyState.Walking;
-                    WalkAnimation.StartAnimation(AppleBody);
+                    WalkAnimation.StartAnimation(BodySprite);
                 }
             }
             else if (FaceState != ECharacterFaceState.StartingAttack && FaceState != ECharacterFaceState.Attacking && BodyState != ECharacterBodyState.Flying)
@@ -270,25 +108,26 @@ public class Apple : BaseCharacter
                             continue;
                         }
 
-                        float distTo = (AppleHead.gameObject.transform.position - CurProp.transform.position).magnitude;
+                        float distTo = (HeadSprite.gameObject.transform.position - CurProp.transform.position).magnitude;
 
                         if (distTo < 1.3f)
                         {
                             BodyState = ECharacterBodyState.PickingFruit;
-                            PickingFruitAnimation.StartAnimation(AppleBody);
-                            AppleHead.gameObject.SetActive(false);
+                            PickingFruitAnimation.StartAnimation(BodySprite);
+                            HeadSprite.gameObject.SetActive(false);
                             BodyStateChangeStartTime = Time.time;
                             break;
                         }
                     }
                 }
-                else if (bIsFlyButtonPressed)
-                {
-                    BodyState = ECharacterBodyState.Flying;
-                    FlyAnimation.StartAnimation(AppleBody);
-                }
             }
-            
+
+            if (bIsFlyButtonPressed && BodyState != ECharacterBodyState.Flying && BodyState != ECharacterBodyState.PickingFruit)
+            {
+                BodyState = ECharacterBodyState.Flying;
+                FlyAnimation.StartAnimation(BodySprite);
+            }
+
             if (BodyState == ECharacterBodyState.Flying)
             {
                 if (bIsFlyButtonPressed)
@@ -337,7 +176,7 @@ public class Apple : BaseCharacter
                 {
                     if (gameObject.transform.position.y < -3.0f && bIsFlyButtonPressed == false)
                     {
-                        WalkAnimation.StartAnimation(AppleBody);
+                        WalkAnimation.StartAnimation(BodySprite);
                         BodyState = ECharacterBodyState.Walking;
                     }
                     else
@@ -352,12 +191,12 @@ public class Apple : BaseCharacter
                 PickingFruitAnimation.UpdateAnimation();
                 if (PickingFruitAnimation.AnimIsFinished())
                 {
-                    AppleHead.gameObject.SetActive(true);
+                    HeadSprite.gameObject.SetActive(true);
                     BodyStateChangeStartTime = Time.time;
                     BodyState = ECharacterBodyState.Idle;
                     FaceState = ECharacterFaceState.Eating;
                     FaceStateChangeStartTime = Time.time;
-                    EatAnimation.StartAnimation(AppleHead);
+                    EatAnimation.StartAnimation(HeadSprite);
                 }
                 break;
             }
@@ -372,7 +211,7 @@ public class Apple : BaseCharacter
                 {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
-                    AttackAnimations[0].StartAnimation(AppleHead);
+                    AttackAnimations[0].StartAnimation(HeadSprite);
                 }
                 break;
             }
@@ -426,8 +265,8 @@ public class Apple : BaseCharacter
 
     IEnumerator ApplySoot()
     {
-        AppleBody.material.SetVector("_BodyTint_1", new Vector4(0.1f, 0.1f, 0.1f, 0.1f));
+        BodySprite.material.SetVector("_BodyTint_1", new Vector4(0.1f, 0.1f, 0.1f, 0.1f));
         yield return new WaitForSeconds(4);
-        AppleBody.material.SetVector("_BodyTint_1", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+        BodySprite.material.SetVector("_BodyTint_1", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 }
