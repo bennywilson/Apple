@@ -150,6 +150,11 @@ public class BaseCharacter : MonoBehaviour
     protected AnimationInfo FlyAnimation;
 
     protected Vector3 LastPos;
+
+    public bool IsOnGround()
+    {
+        return gameObject.transform.position.y < -3.0f;
+    }
 }
 
 [System.Serializable]

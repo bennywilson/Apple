@@ -174,7 +174,7 @@ public class Apple : BaseCharacter
 
             case ECharacterBodyState.Flying:
                 {
-                    if (gameObject.transform.position.y < -3.0f && bIsFlyButtonPressed == false)
+                    if (IsOnGround() && bIsFlyButtonPressed == false)
                     {
                         WalkAnimation.StartAnimation(BodySprite);
                         BodyState = ECharacterBodyState.Walking;
