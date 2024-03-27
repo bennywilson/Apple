@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: f50fb265be659554290c3f2d343530a2
+  - enabled: 1
     path: Assets/Scenes/ApplesDay.unity
     guid: a310b5a8f714a114ba576f9448b1a251
   m_configObjects: {}
