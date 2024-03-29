@@ -35,6 +35,7 @@ public class Apple : BaseCharacter
     public Events InteractBtn;
     public Events AttackBtn;
     public Events FlyBtn;
+    public Events FlyBtn2;
 
     protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
     protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
@@ -58,7 +59,7 @@ public class Apple : BaseCharacter
 
         RB.velocity = new Vector2(0.0f, 0.0f);
 
-        bool bIsFlyButtonPressed = Input.GetKey(KeyCode.Space) || FlyBtn.GetButtonDown();
+        bool bIsFlyButtonPressed = Input.GetKey(KeyCode.Space) || FlyBtn.GetButtonDown() || FlyBtn2.GetButtonDown();
 
         // Update body
         if (BodyState != ECharacterBodyState.PickingFruit)
@@ -207,7 +208,8 @@ public class Apple : BaseCharacter
         {
             case ECharacterFaceState.Idle :
             {
-                if (BodyState != ECharacterBodyState.PickingFruit && (Input.GetMouseButton(1) || AttackBtn.GetButtonDown()))
+
+                if (BodyState != ECharacterBodyState.PickingFruit && (Input.GetKey(KeyCode.LeftControl) || AttackBtn.GetButtonDown()))
                 {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
