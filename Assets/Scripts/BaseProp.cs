@@ -9,6 +9,7 @@ public class BaseProp : MonoBehaviour
 
     public AnimationInfo IdleAnim;
     public AnimationInfo DeathAnim;
+    public ParticleSystem DeathParticleSystem;
 
     enum EPropState
     {
@@ -23,7 +24,8 @@ public class BaseProp : MonoBehaviour
     {
         None,
         PickFruit,
-        Block
+        Block,
+        Bomb,
     }
     public EInteractType InteractType;
     
@@ -76,4 +78,38 @@ public class BaseProp : MonoBehaviour
     {
         return Health > 0;
     }
+	IEnumerator Explode(Apple apple)
+	{
+		yield return new WaitForSeconds(3);
+
+		if (DeathParticleSystem != null)
+        {
+            DeathParticleSystem.gameObject.SetActive(true);
+
+		}
+        PropSprite.enabled = false;
+		yield return new WaitForSeconds(5);
+		Object.Destroy(transform.parent.gameObject);
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+        if (PropState != EPropState.Idle)
+        {
+            return;
+        }
+
+        Apple apple = other.gameObject.GetComponent<Apple>();
+        if (apple == null && other.transform.parent != null)
+		{
+            apple = other.transform.parent.GetComponent<Apple>();
+		}
+
+		if (InteractType == EInteractType.Bomb && apple)
+        {
+			PropState = EPropState.Dying;
+			DeathAnim.StartAnimation(PropSprite);
+            StartCoroutine(Explode(apple));
+		}
+	}
 }

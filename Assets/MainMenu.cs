@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,10 +20,13 @@ public class MainMenu : MonoBehaviour
     public GameObject ReadyStoryScreen;
     public GameObject CreditScreen;
 
+    public Sprite[] TitleImageVariants;
+    public UnityEngine.UI.Image TitleImage;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        TitleImage.sprite = TitleImageVariants[Random.Range(0, TitleImageVariants.Length)];
     }
 
     // Update is called once per frame
@@ -60,5 +64,6 @@ public class MainMenu : MonoBehaviour
         MainMenuScreen.SetActive(true);
         ReadyStoryScreen.SetActive(false);
         CreditScreen.SetActive(false);
+        TitleImage.sprite = TitleImageVariants[Random.Range(0, TitleImageVariants.Length)];
     }
 }
