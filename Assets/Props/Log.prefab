@@ -91,7 +91,8 @@ MonoBehaviour:
     - AnimSprite: {fileID: -473891303, guid: 8ba76398270319b4abb71ddbb059729f, type: 3}
       FrameDuration: 0.05
       FrameTriggers: []
-  InteractType: 0
+  DeathParticleSystem: {fileID: 0}
+  InteractType: 4
 --- !u!212 &-1389503982656531728
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ Shader"Apple\BaseCharacterShader"
         _NormalMap("Normal Map", 2D) = "bump" {}
 
         _BodyTint_1("Body Tint 1", Color) = (1,1,1,1)
+        _BodyTint_2("Body Tint 2", Color) = (1,1,1,1)
+        _BodyTint_3("Body Tint 3", Color) = (1,1,1,1)
 
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
         [HideInInspector] _Color("Tint", Color) = (1,1,1,1)
@@ -71,6 +73,8 @@ Shader"Apple\BaseCharacterShader"
             half4 _RendererColor;
 
             half4 _BodyTint_1;
+            half4 _BodyTint_2;
+            half4 _BodyTint_3;
 
             #if USE_SHAPE_LIGHT_TYPE_0
             SHAPE_LIGHT(0)
@@ -111,15 +115,24 @@ Shader"Apple\BaseCharacterShader"
             {
                 half4 TexColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 half4 tint = half4(1.0f, 1.0f, 1.0f, 1.0f);
-                if (TexColor.a < 0.75f && TexColor.a > 0.25f)
+                if (TexColor.a > 0.45f && TexColor.a < 0.55f)
+                {
                     tint = _BodyTint_1;
-    
+                }
+                else if (TexColor.a > 0.6f && TexColor.a < 0.75f)
+                {
+                    tint = _BodyTint_2;
+                }
+                else if (TexColor.a > 0.76f && TexColor.a < 0.88f)
+                {
+                    tint = _BodyTint_3;
+                }
                 const half4 main = i.color * TexColor * tint;
                 const half4 mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, i.uv);
                 SurfaceData2D surfaceData;
                 InputData2D inputData;
 
-    InitializeSurfaceData(main.rgb, (TexColor.a > 0.4f), 1.0f, surfaceData);
+                InitializeSurfaceData(main.rgb, (TexColor.a > 0.4f), 1.0f, surfaceData);
                 InitializeInputData(i.uv, i.lightingUV, inputData);
 
                 return CombinedShapeLightShared(surfaceData, inputData);

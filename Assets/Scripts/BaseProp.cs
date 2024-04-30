@@ -26,6 +26,7 @@ public class BaseProp : MonoBehaviour
         PickFruit,
         Block,
         Bomb,
+        Log,
     }
     public EInteractType InteractType;
     
@@ -88,7 +89,21 @@ public class BaseProp : MonoBehaviour
 
 		}
         PropSprite.enabled = false;
-		yield return new WaitForSeconds(5);
+
+        if ((apple.transform.position - transform.position).magnitude < 2.3f)
+        {
+            if (apple.HeadSprite.flipX == false && apple.transform.position.x < transform.position.x ||
+                apple.HeadSprite.flipX == true && apple.transform.position.x >= transform.position.x)
+            {
+                apple.ApplySootToFace();
+            }
+            else
+            {
+                apple.ApplySootToBack();
+            }
+        }
+
+		yield return new WaitForSeconds(3);
 		Object.Destroy(transform.parent.gameObject);
 	}
 

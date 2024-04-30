@@ -146,7 +146,7 @@ public class Apple : BaseCharacter
                 for (int i = 0; i < Props.Length; i++)
                 {
                     BaseProp CurProp = Props[i];
-                    if (CurProp.IsAlive() == true)
+                    if (CurProp.IsAlive() == true || CurProp.InteractType != BaseProp.EInteractType.Log)
                     {
                         continue;
                     }
@@ -154,8 +154,8 @@ public class Apple : BaseCharacter
                     float distTo = (gameObject.transform.position - CurProp.transform.position).magnitude;
                     if (distTo < 0.5f)
                     {
-                        StopCoroutine(ApplySoot());
-                        StartCoroutine(ApplySoot());
+                        StopCoroutine(ApplySootToFeet());
+                        StartCoroutine(ApplySootToFeet());
                     }
                 }
             }
@@ -265,10 +265,36 @@ public class Apple : BaseCharacter
         LastPos = gameObject.transform.position;
     }
 
-    IEnumerator ApplySoot()
+    IEnumerator ApplySootToFeet()
     {
         BodySprite.material.SetVector("_BodyTint_1", new Vector4(0.1f, 0.1f, 0.1f, 0.1f));
         yield return new WaitForSeconds(4);
         BodySprite.material.SetVector("_BodyTint_1", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
+
+    public void ApplySootToFace()
+    {
+        StopCoroutine(ApplySootToFace_Internal());
+        StartCoroutine(ApplySootToFace_Internal());
+	}
+
+    IEnumerator ApplySootToFace_Internal()
+    {
+        HeadSprite.material.SetVector("_BodyTint_2", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
+        yield return new WaitForSeconds(4);
+		HeadSprite.material.SetVector("_BodyTint_2", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+    }
+
+    public void ApplySootToBack()
+    {
+        StopCoroutine(ApplySootToBack_Internal());
+		StartCoroutine(ApplySootToBack_Internal());
+	}
+
+	IEnumerator ApplySootToBack_Internal()
+	{
+		BodySprite.material.SetVector("_BodyTint_3", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
+		yield return new WaitForSeconds(4);
+		BodySprite.material.SetVector("_BodyTint_3", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	}
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2649fcfcd7fd2bf479ae32a58ef98c97
+guid: cac73c7183a59514681b1d0ee4312e2b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Apple_Head_Base
+      name: Apple_Head_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,20 +131,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ab8c1f9a86f4bc48925f867a89f44ee
-      internalID: -1425961352
+      spriteID: 708cd31e54e49e84d9e970710bba6bc4
+      internalID: 1364486383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Angry
+      name: Apple_Head_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,20 +152,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d114138b9324a1499d20decfd0e9020
-      internalID: 597014119
+      spriteID: d2f4c1be08cff3642b8acc8cfd22a1a9
+      internalID: -680671100
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Surprised
+      name: Apple_Head_2
       rect:
         serializedVersion: 2
         x: 64
@@ -173,41 +173,41 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 38a7e3a43167c114d90aa9ef7e9f6cb8
-      internalID: 1200861826
+      spriteID: 5c7c7f0d423d08f4981d01c30ed2b5c4
+      internalID: -767089240
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Eat
+      name: Apple_Head_3
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 64
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a68d297ba0d9be84e994af8e1886da97
-      internalID: -1261277601
+      spriteID: 34265ef2c93833447bba4e7110d829e4
+      internalID: 867667561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_BlowFire
+      name: Apple_Head_4
       rect:
         serializedVersion: 2
         x: 32
@@ -215,20 +215,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 756c48ad9701cba42954fd16dc02dd59
-      internalID: 1451398997
+      spriteID: 7b830c464e59ef6439b6e64e7a57e9e0
+      internalID: -1707551977
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple_Head_Sleep
+      name: Apple_Head_5
       rect:
         serializedVersion: 2
         x: 64
@@ -236,14 +236,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 264bfcbd8adccd746a81b8484864c6ab
-      internalID: 1627339928
+      spriteID: c12af579adcd60447a454fc5789f2884
+      internalID: 1873012162
       vertices: []
       indices: 
       edges: []
@@ -257,14 +257,35 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 200aa5305bb24944ebe90445e05f1846
-      internalID: -1256169801
+      spriteID: bd138f8f4260fd6479af488d449a4b02
+      internalID: 1059998476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Apple_Head_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d22100a5a74074e8b8d0f8b8fc6515
+      internalID: 1298789842
       vertices: []
       indices: 
       edges: []
@@ -280,13 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Apple_Head_6: -1256169801
-      Apple_Head_Angry: 597014119
-      Apple_Head_Base: -1425961352
-      Apple_Head_BlowFire: 1451398997
-      Apple_Head_Eat: -1261277601
-      Apple_Head_Sleep: 1627339928
-      Apple_Head_Surprised: 1200861826
+      Apple_Head_0: 1364486383
+      Apple_Head_1: -680671100
+      Apple_Head_2: -767089240
+      Apple_Head_3: 867667561
+      Apple_Head_4: -1707551977
+      Apple_Head_5: 1873012162
+      Apple_Head_6: 1059998476
+      Apple_Head_7: 1298789842
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
