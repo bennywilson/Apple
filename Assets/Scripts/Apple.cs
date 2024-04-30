@@ -8,7 +8,8 @@ public enum ECharacterBodyState
     Idle,
     Walking,
     PickingFruit,
-    Flying
+    Flying,
+    Sleeping
 }
 
 public enum ECharacterFaceState
@@ -17,6 +18,7 @@ public enum ECharacterFaceState
     StartingAttack,
     Attacking,
     Eating,
+    Sleeping,
 }
 
 public class Apple : BaseCharacter
@@ -37,8 +39,8 @@ public class Apple : BaseCharacter
     public Events FlyBtn;
     public Events FlyBtn2;
 
-    protected ECharacterBodyState BodyState = ECharacterBodyState.Idle;
-    protected ECharacterFaceState FaceState = ECharacterFaceState.Idle;
+    public ECharacterBodyState BodyState = ECharacterBodyState.Idle;
+    public ECharacterFaceState FaceState = ECharacterFaceState.Idle;
     protected float FaceStateChangeStartTime;
     protected float BodyStateChangeStartTime;
 
@@ -55,6 +57,11 @@ public class Apple : BaseCharacter
     // Update is called once per frame
     void Update()
     {
+        if (BodyState == ECharacterBodyState.Sleeping)
+        {
+            return;
+        }
+
         Vector2 moveVec = new Vector2();
 
         RB.velocity = new Vector2(0.0f, 0.0f);
@@ -162,36 +169,28 @@ public class Apple : BaseCharacter
 
         }
 
-        switch(BodyState)
-        {
-            case ECharacterBodyState.Walking:
-                {
-                    if (moveVec.sqrMagnitude > 0.001f)
-                    {
-                        WalkAnimation.UpdateAnimation();
-                    }
-                    break;
+        switch(BodyState) {
+            case ECharacterBodyState.Walking: {
+                if (moveVec.sqrMagnitude > 0.001f) {
+                    WalkAnimation.UpdateAnimation();
                 }
+                break;
+            }
 
-            case ECharacterBodyState.Flying:
-                {
-                    if (IsOnGround() && bIsFlyButtonPressed == false)
-                    {
-                        WalkAnimation.StartAnimation(BodySprite);
-                        BodyState = ECharacterBodyState.Walking;
-                    }
-                    else
-                    {
-                        FlyAnimation.UpdateAnimation();
-                    }
-                    break;
+            case ECharacterBodyState.Flying: {
+                if (IsOnGround() && bIsFlyButtonPressed == false) {
+                    WalkAnimation.StartAnimation(BodySprite);
+                    BodyState = ECharacterBodyState.Walking;
                 }
+                else {
+                    FlyAnimation.UpdateAnimation();
+                }
+                break;
+            }
 
-            case ECharacterBodyState.PickingFruit :
-            {
+            case ECharacterBodyState.PickingFruit : {
                 PickingFruitAnimation.UpdateAnimation();
-                if (PickingFruitAnimation.AnimIsFinished())
-                {
+                if (PickingFruitAnimation.AnimIsFinished()) {
                     HeadSprite.gameObject.SetActive(true);
                     BodyStateChangeStartTime = Time.time;
                     BodyState = ECharacterBodyState.Idle;
@@ -204,13 +203,9 @@ public class Apple : BaseCharacter
         }
 
         // Update Face
-        switch(FaceState)
-        {
-            case ECharacterFaceState.Idle :
-            {
-
-                if (BodyState != ECharacterBodyState.PickingFruit && (Input.GetKey(KeyCode.LeftControl) || AttackBtn.GetButtonDown()))
-                {
+        switch(FaceState) {
+            case ECharacterFaceState.Idle : {
+                if (BodyState != ECharacterBodyState.PickingFruit && (Input.GetKey(KeyCode.LeftControl) || AttackBtn.GetButtonDown())) {
                     FaceState = ECharacterFaceState.StartingAttack;
                     FaceStateChangeStartTime = Time.time;
                     AttackAnimations[0].StartAnimation(HeadSprite);
@@ -218,11 +213,9 @@ public class Apple : BaseCharacter
                 break;
             }
 
-            case ECharacterFaceState.StartingAttack :
-            {
+            case ECharacterFaceState.StartingAttack : {
                 string[] FrameTriggers = AttackAnimations[0].UpdateAnimation();
-                if (FrameTriggers != null && FrameTriggers.Length > 0)
-                {
+                if (FrameTriggers != null && FrameTriggers.Length > 0) {
                     FaceState = ECharacterFaceState.Attacking;
                     FaceStateChangeStartTime = Time.time;
                     AttackList[0].StartAttack();
@@ -230,12 +223,10 @@ public class Apple : BaseCharacter
                 break;
             }
 
-            case ECharacterFaceState.Attacking :
-            {
+            case ECharacterFaceState.Attacking : {
                 string[] FrameTriggers = AttackAnimations[0].UpdateAnimation();
                 AttackList[0].UpdateAttack();
-                if (AttackAnimations[0].AnimIsFinished())
-                {
+                if (AttackAnimations[0].AnimIsFinished()) {
                     FaceState = ECharacterFaceState.Idle;
                     FaceStateChangeStartTime = Time.time;
                     AttackList[0].StopAttack();
@@ -243,11 +234,9 @@ public class Apple : BaseCharacter
                 break;
             }
 
-            case ECharacterFaceState.Eating :
-            {
+            case ECharacterFaceState.Eating : {
                 EatAnimation.UpdateAnimation();
-                if (EatAnimation.AnimIsFinished())
-                {
+                if (EatAnimation.AnimIsFinished()) {
                     FaceState = ECharacterFaceState.Idle;
                     FaceStateChangeStartTime = Time.time;
                 }
@@ -255,46 +244,56 @@ public class Apple : BaseCharacter
             }
         }
 
-
         // Update backgrounds
-        for (int i = 0; i < BackgroundImages.Length; i++)
-        {
+        for (int i = 0; i < BackgroundImages.Length; i++) {
             Vector3 scrollVec = gameObject.transform.position - LastPos;
             BackgroundImages[i].Scroll(scrollVec);
         }
         LastPos = gameObject.transform.position;
     }
 
-    IEnumerator ApplySootToFeet()
-    {
+    IEnumerator ApplySootToFeet() {
         BodySprite.material.SetVector("_BodyTint_1", new Vector4(0.1f, 0.1f, 0.1f, 0.1f));
         yield return new WaitForSeconds(4);
         BodySprite.material.SetVector("_BodyTint_1", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    public void ApplySootToFace()
-    {
+    public void ApplySootToFace() {
         StopCoroutine(ApplySootToFace_Internal());
         StartCoroutine(ApplySootToFace_Internal());
 	}
 
-    IEnumerator ApplySootToFace_Internal()
-    {
+    IEnumerator ApplySootToFace_Internal() {
         HeadSprite.material.SetVector("_BodyTint_2", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
         yield return new WaitForSeconds(4);
 		HeadSprite.material.SetVector("_BodyTint_2", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
-    public void ApplySootToBack()
-    {
+    public void ApplySootToBack() {
         StopCoroutine(ApplySootToBack_Internal());
 		StartCoroutine(ApplySootToBack_Internal());
 	}
 
-	IEnumerator ApplySootToBack_Internal()
-	{
+	IEnumerator ApplySootToBack_Internal() {
 		BodySprite.material.SetVector("_BodyTint_3", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
 		yield return new WaitForSeconds(4);
 		BodySprite.material.SetVector("_BodyTint_3", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+
+    public void NapTime(Vector3 TargetPos) {
+		BodyState = ECharacterBodyState.Sleeping;
+		RB.velocity = new Vector2(0.0f, 0.0f);
+		StartCoroutine(MoveToNapSpot(TargetPos));
+	}
+
+	IEnumerator MoveToNapSpot(Vector3 TargetPos) {
+        float distTo = Vector3.Distance(transform.position, TargetPos);
+        while (distTo > 0.08f) {
+            transform.position = Vector3.Lerp(transform.position, TargetPos, 0.1f);
+			yield return new WaitForSeconds(0.033f);
+			distTo = Vector3.Distance(transform.position, TargetPos);
+		}
+		SleepingAnimation.StartAnimation(BodySprite);
+		HeadSprite.gameObject.SetActive(false);
 	}
 }

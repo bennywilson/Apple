@@ -149,7 +149,10 @@ public class BaseCharacter : MonoBehaviour
     [field: SerializeField]
     protected AnimationInfo FlyAnimation;
 
-    protected Vector3 LastPos;
+	[field: SerializeField]
+	protected AnimationInfo SleepingAnimation;
+
+	protected Vector3 LastPos;
 
     public bool IsOnGround()
     {
