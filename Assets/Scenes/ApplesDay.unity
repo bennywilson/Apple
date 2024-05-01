@@ -187,7 +187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8709,7 +8709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8981,7 +8981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9267,7 +9267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab70857db6ad2445a4c7b4f5039d30e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <WalkSpeed>k__BackingField: 1
+  <WalkSpeed>k__BackingField: 4
   <FlyUpSpeed>k__BackingField: 1
   <HeadSprite>k__BackingField: {fileID: 0}
   <BodySprite>k__BackingField: {fileID: 1269341143}
@@ -9291,10 +9291,6 @@ MonoBehaviour:
       FrameDuration: 0
       FrameTriggers: []
   Owner: {fileID: 1363521197}
-  SleepAnimation:
-    LoopingAnimation: 0
-    FreezeOnLastFrame: 0
-    SpriteAnimationFrameList: []
   MaxFollowDistance: 3
   SecondsBetweenBobs: 1
   BobAmplitude: 0.1
@@ -9329,7 +9325,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 5
   m_Material: {fileID: 0}
@@ -9442,7 +9438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9677,11 +9673,14 @@ MonoBehaviour:
       FrameDuration: 0.3
       FrameTriggers: []
   SleepingAnimation:
-    LoopingAnimation: 0
-    FreezeOnLastFrame: 1
+    LoopingAnimation: 1
+    FreezeOnLastFrame: 0
     SpriteAnimationFrameList:
-    - AnimSprite: {fileID: 906586018, guid: 0621497681549ef4b869f0b520960bce, type: 3}
-      FrameDuration: 0
+    - AnimSprite: {fileID: -1161275172, guid: 8bd5518bdf2c3f84c856245a7029a8b9, type: 3}
+      FrameDuration: 3
+      FrameTriggers: []
+    - AnimSprite: {fileID: 1165543833, guid: 8bd5518bdf2c3f84c856245a7029a8b9, type: 3}
+      FrameDuration: 3
       FrameTriggers: []
   PickingFruitAnimation:
     LoopingAnimation: 0
@@ -9702,6 +9701,26 @@ MonoBehaviour:
       FrameTriggers: []
     - AnimSprite: {fileID: 1364486383, guid: cac73c7183a59514681b1d0ee4312e2b, type: 3}
       FrameDuration: 1
+      FrameTriggers: []
+  FaceExplosion:
+    LoopingAnimation: 0
+    FreezeOnLastFrame: 0
+    SpriteAnimationFrameList:
+    - AnimSprite: {fileID: -767089240, guid: cac73c7183a59514681b1d0ee4312e2b, type: 3}
+      FrameDuration: 4
+      FrameTriggers: []
+    - AnimSprite: {fileID: 1364486383, guid: cac73c7183a59514681b1d0ee4312e2b, type: 3}
+      FrameDuration: 0.1
+      FrameTriggers: []
+  FaceFromButtExplosion:
+    LoopingAnimation: 0
+    FreezeOnLastFrame: 0
+    SpriteAnimationFrameList:
+    - AnimSprite: {fileID: 1873012162, guid: cac73c7183a59514681b1d0ee4312e2b, type: 3}
+      FrameDuration: 4
+      FrameTriggers: []
+    - AnimSprite: {fileID: 1364486383, guid: cac73c7183a59514681b1d0ee4312e2b, type: 3}
+      FrameDuration: 4
       FrameTriggers: []
   MainCamera: {fileID: 519420031}
   BackgroundImages:
@@ -10561,7 +10580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11179,7 +11198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12018,7 +12037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12216,7 +12235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12411,7 +12430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7371345064403895919, guid: 45194f226288d4c458d0e33688d64e2f, type: 3}
       propertyPath: InteractType
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -45,10 +45,6 @@ public class BaseProp : MonoBehaviour {
 
             case EPropState.Dying : {
                 DeathAnim.UpdateAnimation();
-              /*  if (DeathAnim.AnimIsFinished())
-                {
-                    Object.Destroy(gameObject);
-                }*/
                 break;
             }
         }

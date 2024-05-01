@@ -102,7 +102,6 @@ public struct BaseAttack
         {
             BaseProp CurProp = Props[i];
             float distTo = (AttackSprite.gameObject.transform.position - CurProp.transform.position).magnitude;
-
             if (distTo < DamageRadius)
             {
                 CurProp.TakeDamage(99999.0f);

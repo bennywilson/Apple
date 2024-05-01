@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.Physics2DModule;
 
-public enum ECharacterBodyState
-{
+public enum ECharacterBodyState {
     Idle,
     Walking,
     PickingFruit,
@@ -12,24 +10,30 @@ public enum ECharacterBodyState
     Sleeping
 }
 
-public enum ECharacterFaceState
-{
+public enum ECharacterFaceState {
     Idle,
     StartingAttack,
     Attacking,
     Eating,
     Sleeping,
+    Exploded,
+    ButtExploded,
 }
 
-public class Apple : BaseCharacter
-{
+public class Apple : BaseCharacter {
     [field: SerializeField]
     protected AnimationInfo PickingFruitAnimation;
 
     [field: SerializeField]
     protected AnimationInfo EatAnimation;
 
-    public Camera MainCamera;
+    [field: SerializeField]
+    protected AnimationInfo FaceExplosion;
+
+	[field: SerializeField]
+	protected AnimationInfo FaceFromButtExplosion;
+
+	public Camera MainCamera;
     public BackgroundImage[] BackgroundImages;
 
     public Events MoveLeftBtn;
@@ -55,10 +59,9 @@ public class Apple : BaseCharacter
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (BodyState == ECharacterBodyState.Sleeping)
-        {
+    void Update() {
+        if (BodyState == ECharacterBodyState.Sleeping) {
+            SleepingAnimation.UpdateAnimation();
             return;
         }
 
@@ -242,12 +245,30 @@ public class Apple : BaseCharacter
                 }
                 break;
             }
+
+            case ECharacterFaceState.Exploded: {
+                FaceExplosion.UpdateAnimation();
+				if (FaceExplosion.AnimIsFinished()) {
+					FaceState = ECharacterFaceState.Idle;
+					FaceStateChangeStartTime = Time.time;
+				}
+                break;
+            }
+
+            case ECharacterFaceState.ButtExploded: {
+			   FaceFromButtExplosion.UpdateAnimation();
+			   if (FaceFromButtExplosion.AnimIsFinished()) {
+			   	FaceState = ECharacterFaceState.Idle;
+			   	FaceStateChangeStartTime = Time.time;
+			   }
+			   break;
+			}
         }
 
         // Update backgrounds
         for (int i = 0; i < BackgroundImages.Length; i++) {
-            Vector3 scrollVec = gameObject.transform.position - LastPos;
-            BackgroundImages[i].Scroll(scrollVec);
+           Vector3 scrollVec = gameObject.transform.position - LastPos;
+           BackgroundImages[i].Scroll(scrollVec);
         }
         LastPos = gameObject.transform.position;
     }
@@ -264,7 +285,9 @@ public class Apple : BaseCharacter
 	}
 
     IEnumerator ApplySootToFace_Internal() {
-        HeadSprite.material.SetVector("_BodyTint_2", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
+        FaceExplosion.StartAnimation(HeadSprite);
+        FaceState = ECharacterFaceState.Exploded;
+		HeadSprite.material.SetVector("_BodyTint_2", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
         yield return new WaitForSeconds(4);
 		HeadSprite.material.SetVector("_BodyTint_2", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
     }
@@ -275,6 +298,8 @@ public class Apple : BaseCharacter
 	}
 
 	IEnumerator ApplySootToBack_Internal() {
+		FaceFromButtExplosion.StartAnimation(HeadSprite);
+        FaceState = ECharacterFaceState.ButtExploded;
 		BodySprite.material.SetVector("_BodyTint_3", new Vector4(0.5f, 0.5f, 0.5f, 0.5f));
 		yield return new WaitForSeconds(4);
 		BodySprite.material.SetVector("_BodyTint_3", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -285,7 +310,6 @@ public class Apple : BaseCharacter
 		RB.velocity = new Vector2(0.0f, 0.0f);
 		StartCoroutine(MoveToNapSpot(TargetPos));
 	}
-
 	IEnumerator MoveToNapSpot(Vector3 TargetPos) {
         float distTo = Vector3.Distance(transform.position, TargetPos);
         while (distTo > 0.08f) {
